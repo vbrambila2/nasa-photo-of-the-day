@@ -18,14 +18,11 @@ function App() {
     const yearDate = document.getElementsByClassName("year")[0].value;
     //year day month in a string (res.data.date)
     const changer = `${yearDate}-0${monthDate}-${dayDate}`;
-    console.log(changer, "changer");
-    //setImageDate(res.data.`${yearDate}-${dayDate}-${monthDate}`);
     
     axios.get(`${BASE_URL}?api_key=${API_KEY}&date=${changer}`)
     .then((res) => {
       setImageDate(changer);
       setImage(res.data.hdurl)
-      console.log(res.data.hdurl, "set");
     })
     .catch(err => console.error(err))
   }
@@ -35,7 +32,6 @@ function App() {
     .then(res => {
       setImage(res.data.hdurl);
       setImageDate(res.data.date);
-      console.log(res.data.date);
     })
     .catch(err => console.error(err))
   }, [])
