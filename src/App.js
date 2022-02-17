@@ -11,8 +11,23 @@ function App() {
   const [image, setImage] = useState(null);
   const [imageDate, setImageDate] = useState("");
 
-  const dateChange = () => {
-    console.log("date changed");
+  const dateChange = (e) => {
+    e.preventDefault();
+    const monthDate = document.getElementsByClassName("month")[0].value;
+    const dayDate = document.getElementsByClassName("day")[0].value;
+    const yearDate = document.getElementsByClassName("year")[0].value;
+    //year day month in a string (res.data.date)
+    const changer = `${yearDate}-0${monthDate}-${dayDate}`;
+    console.log(changer, "changer");
+    //setImageDate(res.data.`${yearDate}-${dayDate}-${monthDate}`);
+    
+    axios.get(`${BASE_URL}?api_key=${API_KEY}&date=${changer}`)
+    .then((res) => {
+      setImageDate(changer);
+      setImage(res.data.hdurl)
+      console.log(res.data.hdurl, "set");
+    })
+    .catch(err => console.error(err))
   }
 
   useEffect(() => {
@@ -20,6 +35,7 @@ function App() {
     .then(res => {
       setImage(res.data.hdurl);
       setImageDate(res.data.date);
+      console.log(res.data.date);
     })
     .catch(err => console.error(err))
   }, [])
